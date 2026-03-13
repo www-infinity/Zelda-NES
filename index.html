@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Zelda NES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Loading overlay -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-logo">
+        <span class="pixel-title">ZELDA</span>
+        <span class="pixel-subtitle">NES EMULATOR</span>
+      </div>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <p class="loading-text" id="loading-text">Loading…</p>
+      <label class="rom-label" for="rom-upload">
+        <span class="rom-btn">▶ Load ROM (.nes)</span>
+        <input type="file" id="rom-upload" accept=".nes" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Main emulator layout -->
+  <div id="app" class="app hidden">
+    <!-- Screen area -->
+    <div class="screen-wrap">
+      <canvas id="nes-canvas" width="256" height="240"></canvas>
+      <div class="screen-overlay hidden" id="pause-overlay">
+        <div class="pause-box">
+          <p>⏸ PAUSED</p>
+          <button id="resume-btn">RESUME</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NES Controller -->
+    <div class="controller" id="controller">
+      <!-- Left side: D-Pad -->
+      <div class="dpad-zone">
+        <div class="dpad">
+          <button class="dpad-up"    data-key="UP"    ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">▲</button>
+          <button class="dpad-left"  data-key="LEFT"  ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">◀</button>
+          <div class="dpad-center"></div>
+          <button class="dpad-right" data-key="RIGHT" ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">▶</button>
+          <button class="dpad-down"  data-key="DOWN"  ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">▼</button>
+        </div>
+      </div>
+
+      <!-- Center: Select / Menu / Start -->
+      <div class="center-btns">
+        <button class="menu-btn" id="menu-btn" onclick="toggleMenu()">☰</button>
+        <div class="sys-row">
+          <button class="sys-btn" data-key="SELECT" ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">SELECT</button>
+          <button class="sys-btn" data-key="START"  ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">START</button>
+        </div>
+      </div>
+
+      <!-- Right side: A / B buttons -->
+      <div class="ab-zone">
+        <div class="ab-btns">
+          <button class="btn-b" data-key="B" ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">B</button>
+          <button class="btn-a" data-key="A" ontouchstart="btnDown(this)" ontouchend="btnUp(this)" onmousedown="btnDown(this)" onmouseup="btnUp(this)">A</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide-up menu -->
+    <div class="slide-menu hidden" id="slide-menu">
+      <button onclick="loadROM()">📂 Load ROM</button>
+      <button onclick="togglePause()">⏸ Pause / Resume</button>
+      <button onclick="resetGame()">🔄 Reset</button>
+      <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+      <button onclick="toggleMenu()">✕ Close</button>
+      <input type="file" id="menu-rom-upload" accept=".nes" style="display:none" />
+    </div>
+  </div>
+
+  <script src="js/jsnes.min.js"></script>
+  <script src="js/emulator.js"></script>
+  <script src="js/controller.js"></script>
+</body>
+</html>
